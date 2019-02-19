@@ -1,0 +1,4 @@
+grant unlimited tablespace to lb_dev;
+grant resource to lb_dev
+Предоставить разрешение дев-ам и тест-ам на любые справочники
+grant select any dictionary to lb_dev; - на ошибке с v8 параметром..

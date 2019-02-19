@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+    <changeSet id="3" author="tsiukaris">
+        <sql>
+            INSERT INTO departments(depname) values ('HR');
+        </sql>
+        <rollback>delete from departments where depname = 'HR'</rollback>
+        <sql>
+            INSERT INTO departments(depname) values ('QA');
+        </sql>
+        <rollback>delete from departments where depname = 'QA'</rollback>
+    </changeSet>
+
+    <changeSet id="4" author="tsiukaris">
+        <sql>
+            INSERT INTO persons(firstname, lastname, deptid) values ('Andrew', 'Lubre', 2);
+        </sql>
+        <rollback>
+            <sql>
+                delete from persons where firsname = 'Andrew' and lastname = 'LUBRE';
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!--РАЗОБРАТЬСЯ С ТРИГГЕРАМИ ОРАКЛ-->
+    <!--<include file="latest/trg/departments_bi.xml"/>-->
+</databaseChangeLog>

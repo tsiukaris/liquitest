@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet id="1" author="tsiukaris">
+        <sql>
+            CREATE TABLE departments (
+            depid int NOT NULL PRIMARY KEY,
+            depname varchar2(20) UNIQUE NOT NULL
+            );
+        </sql>
+        <rollback>
+            <dropTable tableName="departments"/>
+        </rollback>
+        <sql>
+            CREATE SEQUENCE dept_seq START WITH 1 INCREMENT BY 1;
+        </sql>
+        <rollback>
+            <dropSequence sequenceName="dept_seq"/>
+        </rollback>
+        <sql splitStatements="false">
+            create or replace trigger depincrement_id
+            before insert on departments
+            for each row
+            BEGIN
+            select dept_seq.nextval into :new.depid from dual;
+            END;
+        </sql>
+        <rollback>
+            <sql>drop trigger depincrement_id;</sql>
+        </rollback>
+    </changeSet>
+
+    <!--РАЗОБРАТЬСЯ С ТРИГГЕРАМИ ОРАКЛ-->
+    <!--<include file="latest/trg/departments_bi.xml"/>-->
+</databaseChangeLog>
